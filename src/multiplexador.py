@@ -28,10 +28,10 @@ class Multiplexador:
         return a_mod, b_mod, c_mod
 
     def salvaSinais(self, a, b, c, muxed):
-        sf.write("muxed_audio.wav", muxed, self.__fs)
-        sf.write("audio_A_base.wav", a, self.__fs)
-        sf.write("audio_B_base.wav", b, self.__fs)
-        sf.write("audio_C_base.wav", c, self.__fs)
+        sf.write("../assets/audio/muxed_audio.wav", muxed, self.__fs)
+        sf.write("../assets/audio/audio_A_base.wav", a, self.__fs)
+        sf.write("../assets/audio/audio_B_base.wav", b, self.__fs)
+        sf.write("../assets/audio/audio_C_base.wav", c, self.__fs)
         print("Multiplexação concluída e saiva no arquivo muxed_audio.wav.")
 
     def multiplexacao(self):

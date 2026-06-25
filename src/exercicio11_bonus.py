@@ -38,9 +38,9 @@ class SistemaComunicao:
     def carrega_audios(self):
         # Utilizando librosa para forçar o áudio para Mono (mono=True) e na mesma taxa (sr=fs)
         print("Carregando arquivos de áudio (isso pode demorar alguns segundos)...")
-        a, _ = librosa.load("piano.wav", sr=self.fs, mono=True)
-        b, _ = librosa.load("bateria.wav", sr=self.fs, mono=True)
-        c, _ = librosa.load("violao.wav", sr=self.fs, mono=True)
+        a, _ = librosa.load("../assets/audio/piano.wav", sr=self.fs, mono=True)
+        b, _ = librosa.load("../assets/audio/bateria.wav", sr=self.fs, mono=True)
+        c, _ = librosa.load("../assets/audio/violao.wav", sr=self.fs, mono=True)
 
         # Truncar todos os áudios para o menor tamanho encontrado para podermos somar os arrays
         min_len = min(len(a), len(b), len(c))
@@ -55,9 +55,9 @@ class SistemaComunicao:
         c = self.lowpass_filter(c, self.cutoff_baseband, self.fs, self.order)
 
         # Salva os arquivos de referência filtrados (banda base real)
-        sf.write("base_A.wav", self.normalize(a), self.fs)
-        sf.write("base_B.wav", self.normalize(b), self.fs)
-        sf.write("base_C.wav", self.normalize(c), self.fs)
+        sf.write("../assets/audio/base_A.wav", self.normalize(a), self.fs)
+        sf.write("../assets/audio/base_B.wav", self.normalize(b), self.fs)
+        sf.write("../assets/audio/base_C.wav", self.normalize(c), self.fs)
 
         return a, b, c, min_len
 
@@ -79,8 +79,8 @@ class SistemaComunicao:
         muxed = self.normalize(muxed)
 
         # Salva o arquivo derivado da multiplexação (Item c do Bônus)
-        sf.write("muxed_audio.wav", muxed, self.fs)
-        print("Sinal multiplexado salvo como 'muxed_audio.wav'.")
+        sf.write("../assets/audio/muxed_audio.wav", muxed, self.fs)
+        print("Sinal multiplexado salvo como '../assets/audio/muxed_audio.wav'.")
 
         # Mostra o espectro do sinal multiplexado (Item b do Bônus)
         self.plota_espectro_multiplexado(muxed, length)
@@ -105,7 +105,7 @@ class SistemaComunicao:
             
             # 4. Normaliza e Salva (Item f: os audios para comparação estarão salvos)
             baseband_norm = self.normalize(baseband)
-            filename = f"demux_channel_{label}.wav"
+            filename = f"../assets/audio/demux_channel_{label}.wav"
             sf.write(filename, baseband_norm, self.fs)
             print(f"Canal {label} (Portadora {fc}Hz) demultiplexado salvo como {filename}.")
 
@@ -130,7 +130,7 @@ class SistemaComunicao:
         plt.xlim(0, 18000)
 
         plt.tight_layout()
-        plt.savefig("espectros_individuais.png")
+        plt.savefig("../docs/espectros_individuais.png")
         plt.close()
 
     def plota_espectro_multiplexado(self, muxed, length):
@@ -144,7 +144,7 @@ class SistemaComunicao:
         plt.ylabel("Magnitude")
         plt.grid(True)
         plt.xlim(0, 18000)
-        plt.savefig("espectro_multiplexado.png")
+        plt.savefig("../docs/espectro_multiplexado.png")
         plt.close()
 
 if __name__ == "__main__":

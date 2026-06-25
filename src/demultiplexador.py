@@ -46,7 +46,7 @@ class Demultiplexador:
 
         # === Carregar o sinal multiplexado ===
     def ler_sinal_multiplexado(self):
-        muxed, fs_read = sf.read("muxed_audio.wav")
+        muxed, fs_read = sf.read("../assets/audio/muxed_audio.wav")
         assert fs_read == self.__fs, "Frequência de amostragem incorreta"
         if muxed.ndim > 1:
             muxed = muxed[:, 0]
@@ -65,7 +65,7 @@ class Demultiplexador:
     
             # 4. Normalizar e salvar
             baseband_norm = self.normalize(baseband)
-            sf.write(f"demux_channel_{label}.wav", baseband_norm, self.__fs)
+            sf.write(f"../assets/audio/demux_channel_{label}.wav", baseband_norm, self.__fs)
             
             print(f"Canal {label} demultiplexado e salvo.")
 
@@ -83,7 +83,7 @@ class Demultiplexador:
         plt.ylabel("Magnitude")
         plt.grid(True)
         plt.xlim(0, 16000)
-        plt.savefig("figura4_espectro.png")
+        plt.savefig("../docs/figura4_espectro.png")
         plt.close()
 
     def ler_pares(self, base_path, demux_path):
@@ -95,9 +95,9 @@ class Demultiplexador:
 
     # Dicionário de pares: base e extraído
     def compara_espectro(self):
-        canais = {'A': ("audio_A_base.wav", "demux_channel_A.wav"),
-                'B': ("audio_B_base.wav", "demux_channel_B.wav"),
-                'C': ("audio_C_base.wav", "demux_channel_C.wav")
+        canais = {'A': ("../assets/audio/audio_A_base.wav", "../assets/audio/demux_channel_A.wav"),
+                'B': ("../assets/audio/audio_B_base.wav", "../assets/audio/demux_channel_B.wav"),
+                'C': ("../assets/audio/audio_C_base.wav", "../assets/audio/demux_channel_C.wav")
                 }
         
         # Gerar espectrogramas para cada canal
@@ -108,14 +108,14 @@ class Demultiplexador:
             self.plota_spectrograma(base, fs, f"Original - Canal {label}", axs[0])
             self.plota_spectrograma(demux, fs, f"Demux - Canal {label}", axs[1])
             plt.tight_layout()
-            plt.savefig(f"espectrograma_canal_{label}.png")
+            plt.savefig(f"../docs/espectrograma_canal_{label}.png")
             plt.close()
 
     def plota_erros(self):
         #Plotar e comparar cada par
-        canais = {'A': ("audio_A_base.wav", "demux_channel_A.wav"),
-                'B': ("audio_B_base.wav", "demux_channel_B.wav"),
-                'C': ("audio_C_base.wav", "demux_channel_C.wav")
+        canais = {'A': ("../assets/audio/audio_A_base.wav", "../assets/audio/demux_channel_A.wav"),
+                'B': ("../assets/audio/audio_B_base.wav", "../assets/audio/demux_channel_B.wav"),
+                'C': ("../assets/audio/audio_C_base.wav", "../assets/audio/demux_channel_C.wav")
                 }
         for label, (base_path, demux_path) in canais.items():
             base, demux, fs = self.ler_pares(base_path, demux_path)
